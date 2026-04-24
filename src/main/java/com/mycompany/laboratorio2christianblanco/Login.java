@@ -4,7 +4,9 @@
  */
 package com.mycompany.laboratorio2christianblanco;
 
+import clases.Persona;
 import javax.swing.JOptionPane;
+import clases.Sistema;
 
 /**
  *
@@ -16,6 +18,12 @@ public class Login extends javax.swing.JFrame {
 
     public Login() {
         initComponents();
+
+        if (Sistema.listaUsuarios.isEmpty()) {
+            Sistema.listaUsuarios.add(
+                    new Persona("Cblanco", "cblanco@correo.com", "12345", "admin")
+            );
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -171,13 +179,15 @@ public class Login extends javax.swing.JFrame {
     }
 
     private String validarUsuario(String usuario, String contrasena) {
-    if (usuario.equals("Cblanco") && contrasena.equals("12345")) {
-        return "admin";
-    } else if (usuario.equals("Cjuarez") && contrasena.equals("1234")) {
-        return "user";
+        for (Persona p : Sistema.listaUsuarios) {
+            if (p.getUserName().equals(usuario)
+                    && p.getContrasena().equals(contrasena)) {
+                return p.getRol();
+            }
+        }
+        return null;
     }
-    return null;
-}
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField CONTRASEÑA;
     private javax.swing.JTextField USUARIO;
